@@ -33,7 +33,10 @@ def check_updates(version, type, name="core"):
             raise KeyError("La clé 'version' n'a pas été trouvée dans les données")
 
         # on vient extraire la version mineure
-        major, minor, _ = version.split(".")
-        latest_minor = max([v for v in data["versions"] if v.startswith(f"{major}.{minor}.")], key=lambda v: v)
+        if "." in version:
+            major, minor, _ = version.split(".")
+            latest_minor = max([v for v in data["versions"] if v.startswith(f"{major}.{minor}.")], key=lambda v: v)
+        else:
+            latest_minor = None
 
         return {"minor": latest_minor, "major": latest_major}
